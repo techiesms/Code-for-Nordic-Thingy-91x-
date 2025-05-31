@@ -1,0 +1,43 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "C:/FAB25/bme68x_iaq/build/_sysbuild/sysbuild/images/CMakeFiles/bme68x_iaq"
+		},
+		{
+			"file" : "C:/FAB25/bme68x_iaq/build/_sysbuild/sysbuild/images/CMakeFiles/bme68x_iaq.rule"
+		},
+		{
+			"file" : "C:/FAB25/bme68x_iaq/build/_sysbuild/sysbuild/images/CMakeFiles/bme68x_iaq-complete.rule"
+		},
+		{
+			"file" : "C:/FAB25/bme68x_iaq/build/_sysbuild/sysbuild/images/bme68x_iaq-prefix/src/bme68x_iaq-stamp/bme68x_iaq-build.rule"
+		},
+		{
+			"file" : "C:/FAB25/bme68x_iaq/build/_sysbuild/sysbuild/images/bme68x_iaq-prefix/src/bme68x_iaq-stamp/bme68x_iaq-configure.rule"
+		},
+		{
+			"file" : "C:/FAB25/bme68x_iaq/build/_sysbuild/sysbuild/images/bme68x_iaq-prefix/src/bme68x_iaq-stamp/bme68x_iaq-download.rule"
+		},
+		{
+			"file" : "C:/FAB25/bme68x_iaq/build/_sysbuild/sysbuild/images/bme68x_iaq-prefix/src/bme68x_iaq-stamp/bme68x_iaq-install.rule"
+		},
+		{
+			"file" : "C:/FAB25/bme68x_iaq/build/_sysbuild/sysbuild/images/bme68x_iaq-prefix/src/bme68x_iaq-stamp/bme68x_iaq-mkdir.rule"
+		},
+		{
+			"file" : "C:/FAB25/bme68x_iaq/build/_sysbuild/sysbuild/images/bme68x_iaq-prefix/src/bme68x_iaq-stamp/bme68x_iaq-patch.rule"
+		},
+		{
+			"file" : "C:/FAB25/bme68x_iaq/build/_sysbuild/sysbuild/images/bme68x_iaq-prefix/src/bme68x_iaq-stamp/bme68x_iaq-update.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"bme68x_iaq"
+		],
+		"name" : "bme68x_iaq"
+	}
+}

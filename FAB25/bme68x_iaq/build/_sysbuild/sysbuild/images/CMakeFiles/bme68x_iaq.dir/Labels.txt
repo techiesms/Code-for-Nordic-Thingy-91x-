@@ -1,0 +1,13 @@
+# Target labels
+ bme68x_iaq
+# Source files and their labels
+C:/FAB25/bme68x_iaq/build/_sysbuild/sysbuild/images/CMakeFiles/bme68x_iaq
+C:/FAB25/bme68x_iaq/build/_sysbuild/sysbuild/images/CMakeFiles/bme68x_iaq.rule
+C:/FAB25/bme68x_iaq/build/_sysbuild/sysbuild/images/CMakeFiles/bme68x_iaq-complete.rule
+C:/FAB25/bme68x_iaq/build/_sysbuild/sysbuild/images/bme68x_iaq-prefix/src/bme68x_iaq-stamp/bme68x_iaq-build.rule
+C:/FAB25/bme68x_iaq/build/_sysbuild/sysbuild/images/bme68x_iaq-prefix/src/bme68x_iaq-stamp/bme68x_iaq-configure.rule
+C:/FAB25/bme68x_iaq/build/_sysbuild/sysbuild/images/bme68x_iaq-prefix/src/bme68x_iaq-stamp/bme68x_iaq-download.rule
+C:/FAB25/bme68x_iaq/build/_sysbuild/sysbuild/images/bme68x_iaq-prefix/src/bme68x_iaq-stamp/bme68x_iaq-install.rule
+C:/FAB25/bme68x_iaq/build/_sysbuild/sysbuild/images/bme68x_iaq-prefix/src/bme68x_iaq-stamp/bme68x_iaq-mkdir.rule
+C:/FAB25/bme68x_iaq/build/_sysbuild/sysbuild/images/bme68x_iaq-prefix/src/bme68x_iaq-stamp/bme68x_iaq-patch.rule
+C:/FAB25/bme68x_iaq/build/_sysbuild/sysbuild/images/bme68x_iaq-prefix/src/bme68x_iaq-stamp/bme68x_iaq-update.rule

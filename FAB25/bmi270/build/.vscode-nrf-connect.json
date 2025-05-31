@@ -1,0 +1,17 @@
+{
+  "toolchainPath": "c:\\ncs\\toolchains\\0b393f9e1b",
+  "sdkPath": "c:\\ncs\\v3.0.0",
+  "board": "thingy91x/nrf9151/ns",
+  "boardDir": "c:\\ncs\\v3.0.0\\nrf\\boards\\nordic\\thingy91x",
+  "boardDirs": [
+    "c:\\ncs\\v3.0.0\\nrf\\boards\\nordic\\thingy91x"
+  ],
+  "optimizations": "none",
+  "cmakeArgs": [],
+  "confFiles": [],
+  "buildDirectory": "build",
+  "kconfigFragments": [],
+  "snippets": [],
+  "dtcOverlays": [],
+  "extraDtcOverlays": []
+}
