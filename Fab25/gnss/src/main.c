@@ -8,7 +8,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
-#include <stdbool.h>
 #include <zephyr/kernel.h>
 #include <zephyr/logging/log.h>
 #include <nrf_modem_at.h>
@@ -16,114 +15,11 @@
 #include <modem/lte_lc.h>
 #include <modem/nrf_modem_lib.h>
 #include <date_time.h>
-#include <zephyr/drivers/gpio.h>
-#include <zephyr/devicetree.h>
-#include <zephyr/sys/printk.h>
-
-
 
 LOG_MODULE_REGISTER(gnss_sample, CONFIG_GNSS_SAMPLE_LOG_LEVEL);
 
 #define PI 3.14159265358979323846
 #define EARTH_RADIUS_METERS (6371.0 * 1000.0)
-
-#define GEOFENCE_RADIUS_METERS 1000.0  // 5 km radius
-#define GEOFENCE_CENTER_LAT    23.014975
-#define GEOFENCE_CENTER_LON    72.639570
-
-// Convert degrees to radians
-static double deg_to_rad(double deg) {
-    return deg * PI / 180.0;
-}
-
-// Forward declaration (local to main.c)
-static double distance_calculate(double lat1, double lon1,
-                                 double lat2, double lon2);
-
-
-// Compute the distance using the Haversine formula
-static double haversine_distance(double lat1, double lon1, double lat2, double lon2) {
-    double dlat = deg_to_rad(lat2 - lat1);
-    double dlon = deg_to_rad(lon2 - lon1);
-
-    lat1 = deg_to_rad(lat1);
-    lat2 = deg_to_rad(lat2);
-
-    double a = sin(dlat / 2.0) * sin(dlat / 2.0) +
-               cos(lat1) * cos(lat2) *
-               sin(dlon / 2.0) * sin(dlon / 2.0);
-
-    double c = 2.0 * atan2(sqrt(a), sqrt(1.0 - a));
-
-    return EARTH_RADIUS_METERS * c;
-}
-
-// Returns true if the given point is inside the geofence radius
-bool is_within_geofence(double lat, double lon) {
-    double distance = haversine_distance(GEOFENCE_CENTER_LAT, GEOFENCE_CENTER_LON, lat, lon);
-    return distance <= GEOFENCE_RADIUS_METERS;
-}
-
-static bool is_outside_geofence(double lat, double lon)
-{
-    double distance = distance_calculate(GEOFENCE_CENTER_LAT, GEOFENCE_CENTER_LON, lat, lon);
-    printf("Distance from center: %.2f meters\n", distance);
-    return distance > GEOFENCE_RADIUS_METERS;
-}
-
-static const struct gpio_dt_spec red_led   = GPIO_DT_SPEC_GET(DT_ALIAS(led0), gpios);
-static const struct gpio_dt_spec green_led = GPIO_DT_SPEC_GET(DT_ALIAS(led1), gpios);
-static const struct gpio_dt_spec blue_led  = GPIO_DT_SPEC_GET(DT_ALIAS(led2), gpios);
-
-enum color_state {
-	RED,
-	GREEN,
-	BLUE,
-	YELLOW,
-	CYAN,
-	MAGENTA,
-	WHITE,
-	OFF
-};
-
-void set_color(enum color_state color) {
-	gpio_pin_set_dt(&red_led, 1);
-	gpio_pin_set_dt(&green_led, 1);
-	gpio_pin_set_dt(&blue_led, 1);
-
-	switch (color) {
-	case RED:
-		gpio_pin_set_dt(&red_led, 0);
-		break;
-	case GREEN:
-		gpio_pin_set_dt(&green_led, 0);
-		break;
-	case BLUE:
-		gpio_pin_set_dt(&blue_led, 0);
-		break;
-	case YELLOW:
-		gpio_pin_set_dt(&red_led, 0);
-		gpio_pin_set_dt(&green_led, 0);
-		break;
-	case CYAN:
-		gpio_pin_set_dt(&green_led, 0);
-		gpio_pin_set_dt(&blue_led, 0);
-		break;
-	case MAGENTA:
-		gpio_pin_set_dt(&red_led, 0);
-		gpio_pin_set_dt(&blue_led, 0);
-		break;
-	case WHITE:
-		gpio_pin_set_dt(&red_led, 0);
-		gpio_pin_set_dt(&green_led, 0);
-		gpio_pin_set_dt(&blue_led, 0);
-		break;
-	case OFF:
-	default:
-		break;
-	}
-}
-
 
 #if !defined(CONFIG_GNSS_SAMPLE_ASSISTANCE_NONE) || defined(CONFIG_GNSS_SAMPLE_MODE_TTFF_TEST)
 static struct k_work_q gnss_work_q;
@@ -803,19 +699,7 @@ int main(void)
 	uint8_t cnt = 0;
 	struct nrf_modem_gnss_nmea_data_frame *nmea_data;
 
-
-
 	LOG_INF("Starting GNSS sample");
-
-	if (!device_is_ready(red_led.port) || !device_is_ready(green_led.port) || !device_is_ready(blue_led.port)) {
-		LOG_ERR("LED GPIO not ready");
-		return -1;
-	}
-
-	gpio_pin_configure_dt(&red_led, GPIO_OUTPUT_INACTIVE);
-	gpio_pin_configure_dt(&green_led, GPIO_OUTPUT_INACTIVE);
-	gpio_pin_configure_dt(&blue_led, GPIO_OUTPUT_INACTIVE);
-	set_color(OFF); // All LEDs off initially
 
 	err = nrf_modem_lib_init();
 	if (err) {
@@ -862,27 +746,16 @@ int main(void)
 				if (last_pvt.flags & NRF_MODEM_GNSS_PVT_FLAG_DEADLINE_MISSED) {
 					time_blocked++;
 				}
-			} if (last_pvt.flags & NRF_MODEM_GNSS_PVT_FLAG_FIX_VALID) {
-    fix_timestamp = k_uptime_get();
-    print_fix_data(&last_pvt);
-    print_distance_from_reference(&last_pvt);
+			} else if (IS_ENABLED(CONFIG_GNSS_SAMPLE_NMEA_ONLY)) {
+				/* NMEA-only output mode. */
 
-    double lat = last_pvt.latitude;
-    double lon = last_pvt.longitude;
-    double alt = last_pvt.altitude;
+				if (output_paused()) {
+					goto handle_nmea;
+				}
 
-    LOG_INF("Fix: Latitude=%.6f, Longitude=%.6f, Altitude=%.2f", lat, lon, alt);
-
-    if (is_outside_geofence(lat, lon)) {
-        set_color(BLUE);  // Outside geofence
-    } else {
-        set_color(GREEN); // Inside geofence
-    }
-
-} else {
-    set_color(RED); // No fix
-
-}
+				if (last_pvt.flags & NRF_MODEM_GNSS_PVT_FLAG_FIX_VALID) {
+					print_distance_from_reference(&last_pvt);
+				}
 			} else {
 				/* PVT and NMEA output mode. */
 
@@ -890,8 +763,8 @@ int main(void)
 					goto handle_nmea;
 				}
 
-				//printf("\033[1;1H");
-				//printf("\033[2J");
+				printf("\033[1;1H");
+				printf("\033[2J");
 				print_satellite_stats(&last_pvt);
 				print_flags(&last_pvt);
 				printf("-----------------------------------\n");
@@ -925,3 +798,6 @@ handle_nmea:
 		events[0].state = K_POLL_STATE_NOT_READY;
 		events[1].state = K_POLL_STATE_NOT_READY;
 	}
+
+	return 0;
+}
