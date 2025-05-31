@@ -1,0 +1,48 @@
+cmake:
+  application:
+    configuration-dir: C:/ncs/v2.9.1/nrf/samples/bootloader
+    source-dir: C:/ncs/v2.9.1/nrf/samples/bootloader
+  board:
+    name: thingy91x
+    qualifiers: nrf9151
+    revision: 
+  devicetree:
+    bindings-dirs:
+     - C:/ncs/v2.9.1/nrf/dts/bindings
+     - C:/ncs/v2.9.1/zephyr/dts/bindings
+    files:
+     - C:/ncs/v2.9.1/nrf/boards/nordic/thingy91x/thingy91x_nrf9151.dts
+    include-dirs:
+     - C:/ncs/v2.9.1/nrf/include
+     - C:/ncs/v2.9.1/nrf/dts
+     - C:/ncs/v2.9.1/nrf/boards/nordic/thingy91x/dts
+     - C:/ncs/v2.9.1/zephyr/include
+     - C:/ncs/v2.9.1/zephyr/include/zephyr
+     - C:/ncs/v2.9.1/zephyr/dts/common
+     - C:/ncs/v2.9.1/zephyr/dts/x86
+     - C:/ncs/v2.9.1/zephyr/dts/xtensa
+     - C:/ncs/v2.9.1/zephyr/dts/sparc
+     - C:/ncs/v2.9.1/zephyr/dts/riscv
+     - C:/ncs/v2.9.1/zephyr/dts/posix
+     - C:/ncs/v2.9.1/zephyr/dts/nios2
+     - C:/ncs/v2.9.1/zephyr/dts/arm64
+     - C:/ncs/v2.9.1/zephyr/dts/arm
+     - C:/ncs/v2.9.1/zephyr/dts/arc
+     - C:/ncs/v2.9.1/zephyr/dts
+  kconfig:
+    files:
+     - C:/ncs/v2.9.1/nrf/boards/nordic/thingy91x/thingy91x_nrf9151_defconfig
+     - C:/ncs/v2.9.1/nrf/samples/bootloader/prj.conf
+     - C:/nordic/myApps/gnss_1/build/b0/zephyr/.config.sysbuild
+    user-files:
+     - C:/ncs/v2.9.1/nrf/samples/bootloader/prj.conf
+  toolchain:
+    name: zephyr
+    path: C:/ncs/toolchains/0b393f9e1b/opt/zephyr-sdk
+  vendor-specific:
+    nordic:
+      svdfile: C:/ncs/v2.9.1/modules/hal/nordic/nrfx/mdk/nrf9120.svd
+  zephyr:
+    version: 3.7.99
+    zephyr-base: C:/ncs/v2.9.1/zephyr
+version: 0.1.0

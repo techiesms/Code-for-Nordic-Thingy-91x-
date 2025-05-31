@@ -1,0 +1,13 @@
+default: bme68x_iaq
+build_dir: C:/FAB25/bme68x_iaq/build
+domains:
+  - name: bme68x_iaq
+    build_dir: C:/FAB25/bme68x_iaq/build/bme68x_iaq
+  - name: mcuboot
+    build_dir: C:/FAB25/bme68x_iaq/build/mcuboot
+  - name: b0
+    build_dir: C:/FAB25/bme68x_iaq/build/b0
+  - name: s1_image
+    build_dir: C:/FAB25/bme68x_iaq/build/s1_image
+flash_order:
+  - bme68x_iaq

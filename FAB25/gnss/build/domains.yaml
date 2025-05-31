@@ -1,0 +1,13 @@
+default: gnss_1
+build_dir: C:/nordic/myApps/gnss_1/build
+domains:
+  - name: gnss_1
+    build_dir: C:/nordic/myApps/gnss_1/build/gnss_1
+  - name: mcuboot
+    build_dir: C:/nordic/myApps/gnss_1/build/mcuboot
+  - name: b0
+    build_dir: C:/nordic/myApps/gnss_1/build/b0
+  - name: s1_image
+    build_dir: C:/nordic/myApps/gnss_1/build/s1_image
+flash_order:
+  - gnss_1
